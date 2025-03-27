@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .slot-container {
+            display: flex;
+            font-size: 50px;
+            background: #444;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .slot {
+            margin: 0 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Slot Machine</h1>
+    <div class="slot-container">
+        <span class="slot">❓</span>
+        <span class="slot">❓</span>
+        <span class="slot">❓</span>
+    </div>
+    <p id="message">Press Spin to Play!</p>
+    <button onclick="spin()">Spin 🎰</button>
+
+    <script>
+        const symbols = ["🍒", "🍋", "🍊", "🍉", "⭐", "🔔"];
+        
+        function spin() {
+            let slots = document.querySelectorAll(".slot");
+            let newSlots = [
+                symbols[Math.floor(Math.random() * symbols.length)],
+                symbols[Math.floor(Math.random() * symbols.length)],
+                symbols[Math.floor(Math.random() * symbols.length)]
+            ];
+            
+            slots.forEach((slot, index) => {
+                slot.textContent = newSlots[index];
+            });
+
+            let message = document.getElementById("message");
+            if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
+                message.textContent = "🎉 Jackpot! You Win! 🎉";
+            } else {
+                message.textContent = "Try Again!";
+            }
+        }
+    </script>
+</body>
+</html>
