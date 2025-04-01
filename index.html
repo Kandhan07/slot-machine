@@ -35,6 +35,7 @@
             color: white;
             border: none;
             border-radius: 5px;
+            margin: 5px;
         }
         button:hover {
             background: #0056b3;
@@ -43,18 +44,31 @@
 </head>
 <body>
     <h1>Slot Machine</h1>
+    <p>Balance: $<span id="balance">100</span></p>
     <div class="slot-container">
         <span class="slot">❓</span>
         <span class="slot">❓</span>
         <span class="slot">❓</span>
     </div>
     <p id="message">Press Spin to Play!</p>
-    <button onclick="spin()">Spin 🎰</button>
-
+    <button onclick="spin()">Spin 🎰 ($10)</button>
+    <button onclick="addMoney()">Add $50</button>
+    
     <script>
         const symbols = ["🍒", "🍋", "🍊", "🍉", "⭐", "🔔"];
-        
+        let balance = 100;
+        const betAmount = 10;
+        const jackpotReward = 50;
+
         function spin() {
+            if (balance < betAmount) {
+                document.getElementById("message").textContent = "Game Over! Add money to continue.";
+                return;
+            }
+
+            balance -= betAmount;
+            document.getElementById("balance").textContent = balance;
+            
             let slots = document.querySelectorAll(".slot");
             let newSlots = [
                 symbols[Math.floor(Math.random() * symbols.length)],
@@ -68,10 +82,18 @@
 
             let message = document.getElementById("message");
             if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-                message.textContent = "🎉 Jackpot! You Win! 🎉";
+                balance += jackpotReward;
+                message.textContent = "🎉 Jackpot! You Win $" + jackpotReward + "! 🎉";
+                document.getElementById("balance").textContent = balance;
             } else {
                 message.textContent = "Try Again!";
             }
+        }
+
+        function addMoney() {
+            balance += 50;
+            document.getElementById("balance").textContent = balance;
+            document.getElementById("message").textContent = "Balance added! Keep playing!";
         }
     </script>
 </body>
